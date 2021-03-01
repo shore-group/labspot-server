@@ -106,8 +106,15 @@ RUN { \
 	} | tee "$APACHE_CONFDIR/conf-available/docker-php.conf" \
 	&& a2enconf docker-php
 
+
+#install some editors so we can expiriment with filee
+#RUN apt-get install --yes vim nano
+
+RUN apt-get update && apt-get install apt-file -y && apt-file update && apt-get install vim nano -y
+
+
 ENV PHP_EXTRA_BUILD_DEPS apache2-dev
-ENV PHP_EXTRA_CONFIGURE_ARGS --with-apxs2 --disable-cgi
+ENV PHP_EXTRA_CONFIGURE_ARGS --with-apxs2 --disable-cgi --with-mysqli --with-pdo-mysql
 
 # Apply stack smash protection to functions using local buffers and alloca()
 # Make PHP's main executable position-independent (improves ASLR security mechanism, and has no performance impact on x86_64)
